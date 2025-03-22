@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+type ProductImages {
+  color     String
+  colorCode String
+  image     String
+}
+
+model Account {
+  id     String @id @default(auto()) @map("_id") @db.ObjectId
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+}
+
+model Booking {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  createdAt DateTime @default(now())
+}
+
+model Nutritionist {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String  @unique
+  phone     String?
+  specialty String?
+}
+
+model Order {
+  id        String         @id @default(auto()) @map("_id") @db.ObjectId
+  user      User           @relation(fields: [userId], references: [id])
+  userId    String
+  products  OrderProduct[] // Changed to a join model to properly relate products to orders
+  total     Float
+  status    String         @default("pending")
+  createdAt DateTime       @default(now())
+}
+
+model OrderProduct {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  order     Order   @relation(fields: [orderId], references: [id])
+  orderId   String
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  quantity  Int
+}
+
+model Product {
+  id          String          @id @default(auto()) @map("_id") @db.ObjectId
+  brand       String
+  category    String
+  description String
+  images      ProductImages[]
+  inStock     Boolean
+  name        String
+  price       Float
+  reviews     Review[]
+  orders      OrderProduct[]
+}
+
+model Review {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  content     String
+  rating      Int
+  createdAt   DateTime @default(now())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  product     Product  @relation(fields: [productId], references: [id])
+  productId   String
+}
+
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  name     String
+  email    String    @unique
+  password String
+  reviews  Review[]
+  orders   Order[]
+  accounts Account?
+  bookings Booking[]
+}

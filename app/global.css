@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Reset some default styles */
+
+/* Light Mode (Default) */
+:root {
+  --background-color: #f8f9fa; /* Light grayish background */
+  --text-color: #333; /* Dark gray for better readability */
+  
+  --primary-color: #ff6b6b; /* Vibrant red */
+  --secondary-color: #6c757d; /* Neutral gray */
+  --accent-color: #ffa502; /* Bright orange */
+
+  --border-color: #ddd; /* Lighter border color */
+}
+
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #1c1c1c;
+    --text-color: #eaeaea;
+    
+    --primary-color: #ff4757; /* Bright red */
+    --secondary-color: #747d8c; /* Muted gray */
+    --accent-color: #ffb142; /* Warm yellow */
+
+    --border-color: #444;
+  }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  html {
+    font-size: 16px;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Utility Classes */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .button {
+    display: inline-block;
+    padding: 0.7rem 1.5rem;
+    background: linear-gradient(45deg, var(--primary-color), var(--accent-color));
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .button:hover {
+    background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+    transform: scale(1.05);
+  }
+
